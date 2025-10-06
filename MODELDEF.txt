@@ -1,0 +1,36 @@
+model JGP_Pistol
+{
+	path "models/pistol"
+	model 0 "pistol.iqm"
+
+	// This is direct frame assignment used only for
+	// the Spawn sequence, which uses different scale
+	// and offsets. To make it work, we'll disable
+	// bDECOUPLEDANIMATIONS in Spawn, but enable it
+	// again in AttachToOwner() for the on-screen
+	// animations:
+	Offset 0 0 16 
+	Scale 0.5 0.5 0.5
+	Rotating
+	Frame M000 Z 0 "pistol_spawn:0"
+
+	// The rest of the definition applies to how the
+	// weapon will be rendered on screen
+	
+	// Offset it to the right and down:
+	Offset 14 0 -14
+	// Flip it horizontally (otherwise it'll be mirrored)
+	// and squish it frontwise to reduce perspective
+	// distortion (common trick; thanks Nash!):
+	Scale -1 0.5 1
+	// Allow attaching other models to the same armature
+	// (such as the muzzle flash model):
+	ModelsAreAttachments
+	// Preserve weapon's perspective regardless of user's
+	// chosen FOV:
+	ScaleWeaponFOV
+	// Apply this to all decoupled animations. This is
+	// REQUIRED for them to work, and it must be at
+	// the end:
+	BaseFrame
+}
