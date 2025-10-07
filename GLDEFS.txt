@@ -1,0 +1,5 @@
+// Makes our muzzle flash texture fullbright:
+brightmap texture "models/muzzleflash/muzzleflash.png"
+{
+	map "models/muzzleflash/muzzleflash_bm.png"
+}

@@ -3,6 +3,14 @@
 // magazine-fed weapons
 class JGP_WeaponBase : Weapon abstract
 {
+	int muzzleFlashTimer;
+
+	enum EModelIndexes
+	{
+		MI_GUN = 0,
+		MI_FLASH = 1,
+	}
+
 	Default
 	{
 		+DECOUPLEDANIMATIONS //required for decoupled animations
@@ -45,6 +53,26 @@ class JGP_WeaponBase : Weapon abstract
 		A_WeaponReady(flags);
 	}
 
+	// Dedicated function for muzzle flashes.
+	// Attaches a muzzle flash model to the 'gun.muzzleflash' bone,
+	// then rotates and scales it to add randomization.
+	// The model is removed in DoEffect() using muzzleFlashTimer
+	// as a timer.
+	// This isn't required per se, i.e. the muzzle flash animation
+	// could be baked into the firing animation; however, this
+	// provides more procedural control over its looks.
+	action void A_ShowMuzzleFlash(double minsize = 0.75, double maxsize = 1.0, double maxTilt = 20)
+	{
+		invoker.muzzleFlashTimer = 2;
+		double sc = frandom[muzflash](-maxsize + 1.0, -minsize + 1.0);
+		invoker.SetNamedBoneScaling('gun.muzzleflash', (sc, sc, sc), SB_ADD, 0.0);
+		invoker.SetNamedBoneRotationAngles('gun.muzzleflash', 0, frandom[muzflash](-abs(maxTilt), abs(maxTilt)), 0, SB_ADD, 0.0);
+		invoker.A_ChangeModel("", MI_FLASH,
+			modelpath: "models/MuzzleFlash",
+			model: "muzzleflash.iqm"
+		);
+	}
+
 	// Go to Reload when trying to fire without having enough ammo.
 	// If not enough ammo to reload, return null state.
 	override State GetAtkState(bool hold)
@@ -63,7 +91,8 @@ class JGP_WeaponBase : Weapon abstract
 		if (owner)
 		{
 			// Enable this flag when received (in case
-			// in was disabled for Spawn):
+			// in was disabled for Spawn), so decoupled
+			// animations can actually be used:
 			bDECOUPLEDANIMATIONS = true;
 			// Fill magazine when the weapon is
 			// first received:
@@ -74,6 +103,18 @@ class JGP_WeaponBase : Weapon abstract
 				{
 					owner.A_GiveInventory(ammoType1, ammoClass.maxAmount);
 				}
+			}
+		}
+	}
+
+	override void DoEffect()
+	{
+		Super.DoEffect();
+		if (muzzleFlashTimer)
+		{
+			if (--muzzleFlashTimer <= 0)
+			{
+				A_ChangeModel("", MI_FLASH, flags:CMDL_HIDEMODEL);
 			}
 		}
 	}

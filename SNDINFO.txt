@@ -1,0 +1,9 @@
+jgp/pistol/slide	"sounds/pistol/pistol_slide.ogg"
+jgp/pistol/magIn	"sounds/pistol/pistol_magIn.ogg"
+jgp/pistol/magOut	"sounds/pistol/pistol_magOut.ogg"
+
+$random jgp/pistol/shot { jgp/pistol/shot1 jgp/pistol/shot2 jgp/pistol/shot3 jgp/pistol/shot4 }
+jgp/pistol/shot1	"sounds/pistol/pistol_shot1.ogg"
+jgp/pistol/shot2	"sounds/pistol/pistol_shot2.ogg"
+jgp/pistol/shot3	"sounds/pistol/pistol_shot3.ogg"
+jgp/pistol/shot4	"sounds/pistol/pistol_shot4.ogg"

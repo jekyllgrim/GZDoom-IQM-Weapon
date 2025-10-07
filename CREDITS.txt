@@ -1,5 +1,7 @@
 
+Procedural materials, muzzle flash texture, code - Agent_Ash
+
 Pistol 3D model - Programaton (CC BY 4.0)
 https://sketchfab.com/3d-models/pistol-34ebc77c59eb47ef89e0463469237dac
 
-Procedural materials, muzzle flash texture, code - Agent_Ash
+sounds - https://quicksounds.com/
